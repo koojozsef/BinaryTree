@@ -11,8 +11,19 @@ struct Node {
     Node* right;
 };
 
+void storeInOrder(const Node* root, vector<int> &v){
+    if (root == NULL){return;}
+    storeInOrder(root->left, v);
+    v.push_back(root->data);
+    storeInOrder(root->right, v);
+}
+
 bool compareTreeElementtList(const Node* rootA, const Node* rootB){
     // return true if the two trees contain the same elements, false otherwise
+    vector<int> vA, vB;
+    storeInOrder(rootA,vA);
+    storeInOrder(rootB,vB);
+    return (vA == vB);
 }
 
 void printAllNodes(const Node* root){
@@ -24,16 +35,14 @@ void printAllNodes(const Node* root){
     }
 }
 
-struct Node *newNode(int item)
-{
+struct Node *newNode(int item){
     struct Node *temp =  (struct Node *)malloc(sizeof(struct Node));
     temp->data = item;
     temp->left = temp->right = NULL;
     return temp;
 }
 
-struct Node* insert(struct Node* node, int data)
-{
+struct Node* insert(struct Node* node, int data){
     /* If the tree is empty, return a new node */
     if (node == NULL) return newNode(data);
 
@@ -60,14 +69,19 @@ int main()
 {
     struct Node *rootA = NULL;
     struct Node *rootB = NULL;
+    struct Node *rootC = NULL;
     vector<int> A = {2,1,3};
     vector<int> B = {1,2,3};
+    vector<int> C = {1,2,4};
+
     rootA = generateStructure(A);
     rootB = generateStructure(B);
+    rootC = generateStructure(C);
 
-
-    printAllNodes(rootA);
-    printf("\n");
-    printAllNodes(rootB);
+    if(compareTreeElementtList(rootA,rootB)){
+        printf("Same!");
+    }else{
+        printf("Not same!");
+    }
     return 0;
 }
