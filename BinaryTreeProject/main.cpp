@@ -1,4 +1,5 @@
 #include <iostream>
+#include <vector>
 #include<stdio.h>
 #include<stdlib.h>
 
@@ -46,53 +47,24 @@ struct Node* insert(struct Node* node, int data)
     return node;
 }
 
+struct Node* generateStructure(vector<int> vect){
+    struct Node *tempRoot = NULL;
+    tempRoot = newNode(vect[0]);
+    for(int i=1; i<vect.size(); i++){
+        insert(tempRoot, vect[i]);
+    }
+    return tempRoot;
+};
+
 int main()
 {
-    /* rootA
-              50
-           /     \
-          30      70
-         /  \    /  \
-       20   40  60   80 */
     struct Node *rootA = NULL;
-    rootA = newNode(50);
-    insert(rootA, 30);
-    insert(rootA, 20);
-    insert(rootA, 40);
-    insert(rootA, 70);
-    insert(rootA, 60);
-    insert(rootA, 80);
-
-    /* rootB
-              40
-           /     \
-          30      70
-         /       /  \
-       20       50   80
-                  \
-                   60    */
     struct Node *rootB = NULL;
-    rootB = newNode(40);
-    insert(rootB, 30);
-    insert(rootB, 70);
-    insert(rootB, 50);
-    insert(rootB, 20);
-    insert(rootB, 80);
-    insert(rootB, 60);
+    vector<int> A = {2,1,3};
+    vector<int> B = {1,2,3};
+    rootA = generateStructure(A);
+    rootB = generateStructure(B);
 
-    /* rootC
-              40
-           /     \
-          30      70
-         /       /  \
-       20       60   80 */
-    struct Node *rootC = NULL;
-    rootC = newNode(40);
-    insert(rootC, 30);
-    insert(rootC, 70);
-    insert(rootC, 60);
-    insert(rootC, 20);
-    insert(rootC, 80);
 
     printAllNodes(rootA);
     printf("\n");
