@@ -6,8 +6,8 @@
 #include<stdlib.h>
 
 using namespace std;
-#define CFG_COMPARE_W_ONE_SUPP_STORE 1
-#define CFG_COMPARE_W_REDUCED_SUPP_STORE 0
+#define CFG_COMPARE_W_ONE_SUPP_STORE 0
+#define CFG_COMPARE_W_REDUCED_SUPP_STORE 1
 
 #define RET_VAL__DEFAULT 0
 #define RET_VAL__INPUT_IS_NULL 1
@@ -37,27 +37,34 @@ void storeInOrder(const Node* root, queue<int> &q){
     storeInOrder(root->right, q);
 }
 
-void compare(const Node* rootA, const Node* rootB, vector<int> &v){
+int compare(const Node* rootA, const Node* rootB, queue<int> &q){
     if(NotTheSame == true){return;}
 
     if(rootA != NULL && rootB == NULL){
 
     }
     else if(rootA == NULL && rootB != NULL){
-
+        if(rootB->data == q.front()){
+            q.pop();
+            compare(NULL,rootB->left,q);
+            compare(NULL,rootB->right,q);
+        }
     }
     else if(rootA == NULL && rootB == NULL){
-        return;
+        return RET_VAL__DEFAULT;
     }
     else if(rootA->left != NULL && rootB->left != NULL){
-        compare(rootA->left,rootB->left,v);
+        compare(rootA->left,rootB->left,q);
     }
     else if(rootA->left != NULL && rootB->left == NULL){
-        storeInOrder(rootA,v);
-        if(rootB->data != v[0]){
+        storeInOrder(rootA,q);
+        if(rootB->data != q.front()){
             NotTheSame = true;
-            return;
+            return RET_VAL__NOT_SAME;
+        }else{
+            q.pop();
         }
+        compare(NULL,rootB->right,q);
     }
     else if(rootA->left == NULL && rootB->left == NULL){
 
@@ -69,7 +76,7 @@ void compare(const Node* rootA, const Node* rootB, vector<int> &v){
     printf("%d: \n", i);
     //printf("%d: %d %d\n", i, rootA->data, rootB->data);
 
-    return;
+    return RET_VAL__DEFAULT;
 }
 
 int compareDuringWalkThrough(const Node* root, queue<int> &q){
@@ -107,7 +114,7 @@ bool compareTreeElementtList(const Node* rootA, const Node* rootB){
     bool retval = RET_VAL__DEFAULT;
 
 #if CFG_COMPARE_W_REDUCED_SUPP_STORE == 1
-    compare(rootA, rootB, v);
+    compare(rootA, rootB, q);
 #endif // CFG_COMPARE_W_REDUCED_SUPP_STORE
 
 #if CFG_COMPARE_W_ONE_SUPP_STORE == 1

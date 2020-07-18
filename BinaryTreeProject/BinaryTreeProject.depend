@@ -1,8 +1,9 @@
 # depslib dependency file v1.0
-1595063304 source:e:\jozsi\git\own_repositories\binarytree\binarytreeproject\main.cpp
+1595064608 source:e:\jozsi\git\own_repositories\binarytree\binarytreeproject\main.cpp
 	<iostream>
 	<vector>
 	<queue>
+	<algorithm>
 	<stdio.h>
 	<stdlib.h>
 
